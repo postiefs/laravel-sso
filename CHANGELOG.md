@@ -4,10 +4,6 @@ All notable changes to this package are documented here, newest first.
 
 ## [Unreleased]
 
-## [1.0.1]
-
-- Removed the optional users table migration and `sso:install --migration`; the package adds no columns. Roles stay in the app (e.g. spatie/laravel-permission), the portal's roles are never applied to users.
-
 ## [1.0.0]
 
 - Launch token verification (HS256, issuer, audience, expiry), single use, with `sexp` adopted as the session deadline.
