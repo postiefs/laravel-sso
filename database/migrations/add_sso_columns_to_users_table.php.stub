@@ -1,0 +1,44 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+/**
+ * Optional: keeps the portal identity on the users table. Without it SSO works the same; the extra attributes are just
+ * not saved. Map them in `postiefs-sso.user.attributes` or `postiefs-sso.user.sync`.
+ */
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::table('users', function (Blueprint $table) {
+            if (! Schema::hasColumn('users', 'sso_sub')) {
+                $table->string('sso_sub')->nullable()->index();
+            }
+
+            if (! Schema::hasColumn('users', 'department')) {
+                $table->string('department')->nullable();
+            }
+
+            if (! Schema::hasColumn('users', 'sso_roles')) {
+                $table->json('sso_roles')->nullable();
+            }
+
+            if (! Schema::hasColumn('users', 'sso_groups')) {
+                $table->json('sso_groups')->nullable();
+            }
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::table('users', function (Blueprint $table) {
+            foreach (['sso_sub', 'department', 'sso_roles', 'sso_groups'] as $column) {
+                if (Schema::hasColumn('users', $column)) {
+                    $table->dropColumn($column);
+                }
+            }
+        });
+    }
+};
