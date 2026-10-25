@@ -94,7 +94,6 @@ it ends the session and sends the person to the launchpad.
 ## 5. Optional
 
 ```bash
-php artisan vendor:publish --tag=postiefs-sso-migrations   # sso_sub, department, sso_roles, sso_groups on users
 php artisan vendor:publish --tag=postiefs-sso-views        # the guard script and the button
 php artisan vendor:publish --tag=postiefs-sso-lang         # the error messages
 ```

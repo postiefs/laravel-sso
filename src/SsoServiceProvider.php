@@ -62,10 +62,6 @@ class SsoServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->publishes([__DIR__.'/../config/postiefs-sso.php' => config_path('postiefs-sso.php')], 'postiefs-sso-config');
 
-            $this->publishes([
-                __DIR__.'/../database/migrations/add_sso_columns_to_users_table.php.stub' => database_path('migrations/'.date('Y_m_d_His').'_add_sso_columns_to_users_table.php'),
-            ], 'postiefs-sso-migrations');
-
             $this->publishes([__DIR__.'/../resources/views' => resource_path('views/vendor/postiefs-sso')], 'postiefs-sso-views');
 
             $this->publishes([__DIR__.'/../resources/lang' => $this->app->langPath('vendor/postiefs-sso')], 'postiefs-sso-lang');

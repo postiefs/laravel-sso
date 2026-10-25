@@ -100,10 +100,9 @@ or created with a random password; **an existing user is never changed**, except
 | `attributes` | `column => claim`, written when a user is created (columns the table lacks are skipped) |
 | `sync` | `column => claim`, refreshed on every sign-in |
 
-The columns `sso_sub`, `department`, `sso_roles` and `sso_groups` are optional:
-`php artisan vendor:publish --tag=postiefs-sso-migrations`.
+The package ships no migration and adds no columns to `users`.
 
-### Who may sign in, and roles
+### Who may sign in
 
 Extend the resolver and point `postiefs-sso.user.resolver` at it:
 
@@ -117,11 +116,11 @@ class AppUserResolver extends \Postiefs\Sso\Support\DefaultUserResolver
 }
 ```
 
-Give a new user a starting role, or sync roles on every sign-in, with events:
+Roles stay local (for example spatie/laravel-permission); the package never applies the portal's roles. Give a new user
+a starting role with an event:
 
 ```php
 Event::listen(SsoUserCreated::class, fn ($event) => $event->user->assignRole('Team Member'));
-Event::listen(SsoLoggedIn::class, fn ($event) => $event->user->syncRoles($event->identity->roles));
 ```
 
 Events: `SsoUserCreated`, `SsoLoggedIn` (with `created`), `SsoSessionEnded` (reason: `expired`, `revoked`,

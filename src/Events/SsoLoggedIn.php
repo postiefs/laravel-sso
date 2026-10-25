@@ -6,8 +6,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Postiefs\Sso\Data\SsoIdentity;
 
 /**
- * A user signed in through the portal. Listen to it to sync roles, for example
- * `$event->user->syncRoles($event->identity->roles)` with spatie/laravel-permission.
+ * A user signed in through the portal. Listen to it to run your own follow-up.
  */
 class SsoLoggedIn
 {

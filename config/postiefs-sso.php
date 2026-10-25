@@ -109,7 +109,7 @@ return [
     |                 except for the `sync` columns.
     | defaults        Extra attributes of a created user, for example ['status' => 'active'].
     | attributes      column => token claim, written when a user is created. Columns the table does not have are
-    |                 skipped, so the optional migration is not required. Claims: sub, email, name, roles,
+    |                 skipped, so no migration is required. Claims: sub, email, name, roles,
     |                 department, groups.
     | sync            column => token claim, refreshed on every sign-in.
     |

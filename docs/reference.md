@@ -56,7 +56,7 @@ reached gives `AccessCheck::degraded()` (valid).
 
 | Command | |
 |---|---|
-| `sso:install [--migration]` | publish the config; print the `.env` keys and the Callback URL |
+| `sso:install` | publish the config; print the `.env` keys and the Callback URL |
 | `sso:check` | test the settings, that the portal answers, and that the secret matches. Exit code 1 on a failure |
 
 ## Blade
@@ -68,4 +68,4 @@ reached gives `AccessCheck::degraded()` (valid).
 
 ## Publish tags
 
-`postiefs-sso-config`, `postiefs-sso-migrations`, `postiefs-sso-views`, `postiefs-sso-lang`.
+`postiefs-sso-config`, `postiefs-sso-views`, `postiefs-sso-lang`.

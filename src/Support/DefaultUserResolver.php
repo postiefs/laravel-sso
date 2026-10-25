@@ -49,7 +49,7 @@ class DefaultUserResolver implements UserResolver
     protected function find(SsoIdentity $identity): (Model&Authenticatable)|null
     {
         $column = (string) config('postiefs-sso.user.match_on', 'email');
-        $value = $identity->claim($column === 'sso_sub' ? 'sub' : $column);
+        $value = $identity->claim($column);
 
         /** @var class-string<Model&Authenticatable> $model */
         $model = config('postiefs-sso.user.model');

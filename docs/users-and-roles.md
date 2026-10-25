@@ -36,7 +36,7 @@ class AppUserResolver extends DefaultUserResolver
 | Method | Override it to |
 |---|---|
 | `isAllowed($user, $identity)` | refuse someone (inactive user, blocked domain). Default: everyone |
-| `find($identity)` | find users another way (by a stored `sso_sub`, a different table) |
+| `find($identity)` | find users another way (a different table, a stored id) |
 | `create($identity)` | create users yourself (extra columns, a tenant) |
 
 For something completely different, implement `Postiefs\Sso\Contracts\UserResolver` (`resolve(SsoIdentity): ?Authenticatable`;
@@ -44,7 +44,7 @@ return `null` to refuse).
 
 ## Roles and permissions
 
-The package does not know about roles. Use the events.
+The package does not manage roles and adds no columns or migrations. Roles stay in your app (for example spatie/laravel-permission); the portal's roles are never applied to users. Use the events.
 
 A starting role for people created by their first sign-in:
 
@@ -54,15 +54,7 @@ Event::listen(SsoUserCreated::class, function (SsoUserCreated $event) {
 });
 ```
 
-Roles kept in step with the portal on every sign-in:
-
-```php
-Event::listen(SsoLoggedIn::class, function (SsoLoggedIn $event) {
-    $event->user->syncRoles($event->identity->roles);
-});
-```
-
-Or check the portal's roles without storing them anywhere:
+If you ever need the portal's claims, read them from the current session without storing them:
 
 ```php
 use Postiefs\Sso\Facades\Sso;
@@ -89,19 +81,3 @@ What the token says about the person, passed to the resolver and the events:
 | `claims` | every claim of the token |
 
 `claim('name')` reads a claim by its short name; `hasRole('editor')` is true for the portal's `admin` role as well.
-
-## Optional columns
-
-```bash
-php artisan vendor:publish --tag=postiefs-sso-migrations
-php artisan migrate
-```
-
-adds nullable `sso_sub`, `department`, `sso_roles` and `sso_groups` to `users`. Map them in the config:
-
-```php
-'attributes' => ['name' => 'name', 'sso_sub' => 'sub'],
-'sync' => ['department' => 'department', 'sso_roles' => 'roles'],
-```
-
-Without the migration, single sign-on works the same; the columns are simply skipped.

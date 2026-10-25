@@ -6,17 +6,13 @@ use Illuminate\Console\Command;
 
 class InstallCommand extends Command
 {
-    protected $signature = 'sso:install {--migration : Also publish the optional users table migration}';
+    protected $signature = 'sso:install';
 
     protected $description = 'Publish the SSO config and print the .env keys and the Callback URL to register in the portal';
 
     public function handle(): int
     {
         $this->call('vendor:publish', ['--tag' => 'postiefs-sso-config']);
-
-        if ($this->option('migration')) {
-            $this->call('vendor:publish', ['--tag' => 'postiefs-sso-migrations']);
-        }
 
         $this->newLine();
         $this->info('Add these to .env (the values come from the SSO team):');
